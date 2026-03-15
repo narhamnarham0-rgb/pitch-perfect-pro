@@ -62,22 +62,92 @@ import VenueManagement from "./pages/competition/VenueManagement";
 import OrganizationHierarchy from "./pages/competition/OrganizationHierarchy";
 import RegistrationStatus from "./pages/competition/RegistrationStatus";
 
-// Club pages
-import ClubOverview from "./pages/club/ClubOverview";
-import Players from "./pages/club/Players";
-import ECard from "./pages/club/ECard";
-import Roster from "./pages/club/Roster";
-import MatchDay from "./pages/club/MatchDay";
-import MatchHistory from "./pages/club/MatchHistory";
-import ClubFinancial from "./pages/club/ClubFinancial";
-// Club Training pages
-import TrainingSchedule from "./pages/club/training/TrainingSchedule";
-import TrainingAttendance from "./pages/club/training/TrainingAttendance";
-// Club Staff pages
-import CoachManagement from "./pages/club/staff/CoachManagement";
-import MedicalStaff from "./pages/club/staff/MedicalStaff";
-// Club Analytics pages
-import PlayerStatistics from "./pages/club/analytics/PlayerStatistics";
+// Club pages - all from new modular structure
+import {
+  // Dashboard
+  ClubOverview,
+  ClubDashboard,
+  
+  // Core
+  ClubProfile,
+  ClubBranding,
+  ClubHistory,
+  ClubAchievements,
+  
+  // Players
+  Players,
+  PlayerProfile,
+  PlayerRegistration,
+  PlayerTransfer,
+  PlayerContract,
+  PlayerInjuryRecord,
+  PlayerHistory,
+  PlayerDocuments,
+  PlayerPhoto,
+  PlayerVerification,
+  PlayerSuspension,
+  
+  // Roster
+  Roster,
+  RosterManagement,
+  SquadPositions,
+  ContractStatus,
+  PlayerAvailability,
+  PlayingTime,
+  
+  // Staff
+  StaffRegistry,
+  CoachManagement,
+  MedicalStaff,
+  StaffRoles,
+  TeamManager,
+  
+  // Training
+  TrainingSchedule,
+  SessionPlanning,
+  TrainingAttendance,
+  FacilityManagement,
+  CoachFeedback,
+  
+  // Academy
+  AcademyRegistration,
+  AgeCategory,
+  YouthTeams,
+  PlayerPromotion,
+  TalentDevelopment,
+  
+  // Analytics
+  PerformanceAnalytics,
+  PlayerStatistics,
+  MatchAnalysis,
+  CompetitionStatistics,
+  InjuryTrends,
+  MatchHistory,
+  
+  // Finance
+  FinancialDashboard,
+  BudgetManagement,
+  PayrollManagement,
+  RevenueStreams,
+  FinancialReports,
+  ClubFinancial,
+  
+  // Operations
+  OperationsDashboard,
+  EventManagement,
+  GuestManagement,
+  InventoryManagement,
+  SecurityManagement,
+  MatchDay,
+  
+  // Fan
+  FanEngagement,
+  TicketSales,
+  MerchandiseCatalog,
+  SocialMedia,
+  FanFeedback,
+  ECard,
+} from "./modules/club";
 
 // Admin pages - imported from new modular structure
 import {

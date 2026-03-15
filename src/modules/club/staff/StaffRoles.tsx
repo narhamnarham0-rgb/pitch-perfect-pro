@@ -348,6 +348,8 @@ export default function StaffRoles() {
           <div>
             <p className="font-semibold text-sm text-blue-900">View-Only</p>
             <p className="text-sm text-blue-800 mt-1">Can read data but cannot create or modify</p>
+          </div>
+        </CardContent>
       </Card>
 
       <ConfirmDialog
