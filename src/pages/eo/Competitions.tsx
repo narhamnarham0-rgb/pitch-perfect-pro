@@ -21,6 +21,10 @@ const statusColors: Record<string, string> = {
 export default function Competitions() {
   const navigate = useNavigate();
 
+  const handleCompetitionClick = (compId: string) => {
+    navigate(`/eo/competitions/${compId}`);
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -39,7 +43,7 @@ export default function Competitions() {
           <Card
             key={comp.id}
             className="hover:shadow-card-hover transition-all duration-200 cursor-pointer group"
-            onClick={() => {}}
+            onClick={() => handleCompetitionClick(comp.id)}
           >
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between gap-2">

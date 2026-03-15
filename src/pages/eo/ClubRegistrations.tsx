@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { RegistrationStatusBadge } from "@/components/shared/StatusBadges";
 import { Badge } from "@/components/ui/badge";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -12,13 +13,45 @@ import { useToast } from "@/hooks/use-toast";
 const formatIDR = (v: number) =>
   new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(v);
 
+interface ConfirmState {
+  open: boolean;
+  action?: "approve" | "reject";
+  registrationId?: string;
+  clubName?: string;
+  competitionName?: string;
+  isLoading?: boolean;
+}
+
 export default function ClubRegistrations() {
   const { toast } = useToast();
   const [regs, setRegs] = useState(mockRegistrations);
+  const [confirm, setConfirm] = useState<ConfirmState>({ open: false });
 
-  const updateStatus = (id: string, status: "Approved" | "Rejected") => {
-    setRegs((prev) => prev.map((r) => r.id === id ? { ...r, status } : r));
-    toast({ title: status === "Approved" ? "Registrasi Disetujui" : "Registrasi Ditolak", description: `Klub berhasil ${status === "Approved" ? "disetujui" : "ditolak"}.` });
+  const openConfirm = (id: string, action: "approve" | "reject", clubName: string, competitionName: string) => {
+    setConfirm({
+      open: true,
+      action,
+      registrationId: id,
+      clubName,
+      competitionName,
+      isLoading: false,
+    });
+  };
+
+  const updateStatus = (status: "Approved" | "Rejected") => {
+    if (!confirm.registrationId) return;
+
+    setConfirm((prev) => ({ ...prev, isLoading: true }));
+
+    // Simulate API call
+    setTimeout(() => {
+      setRegs((prev) => prev.map((r) => (r.id === confirm.registrationId ? { ...r, status } : r)));
+      toast({
+        title: status === "Approved" ? "Registrasi Disetujui" : "Registrasi Ditolak",
+        description: `${confirm.clubName} untuk ${confirm.competitionName} berhasil ${status === "Approved" ? "disetujui" : "ditolak"}.`,
+      });
+      setConfirm({ open: false });
+    }, 500);
   };
 
   const pending = regs.filter((r) => r.status === "Pending");
@@ -30,6 +63,21 @@ export default function ClubRegistrations() {
         <h1 className="text-2xl font-bold tracking-tight">Club Registration</h1>
         <p className="text-muted-foreground text-sm mt-1">Approve atau reject pendaftaran klub ke kompetisi.</p>
       </div>
+
+      <ConfirmDialog
+        open={confirm.open}
+        title={confirm.action === "approve" ? "Setujui Registrasi" : "Tolak Registrasi"}
+        description={
+          confirm.action === "approve"
+            ? `Anda yakin ingin menyetujui registrasi ${confirm.clubName} untuk ${confirm.competitionName}?`
+            : `Anda yakin ingin menolak registrasi ${confirm.clubName} untuk ${confirm.competitionName}? Tindakan ini tidak dapat dibatalkan.`
+        }
+        actionLabel={confirm.action === "approve" ? "Setujui" : "Tolak"}
+        isDangerous={confirm.action === "reject"}
+        isLoading={confirm.isLoading}
+        onConfirm={() => updateStatus(confirm.action === "approve" ? "Approved" : "Rejected")}
+        onCancel={() => setConfirm({ open: false })}
+      />
 
       {pending.length > 0 && (
         <Card className="border-gold/30 bg-gold/5">
@@ -62,11 +110,22 @@ export default function ClubRegistrations() {
                     <TableCell className="text-xs text-muted-foreground">{r.registeredAt}</TableCell>
                     <TableCell>
                       <div className="flex gap-2">
-                        <Button size="sm" className="h-7 px-2 gap-1 text-xs" onClick={() => updateStatus(r.id, "Approved")}>
-                          <Check className="w-3 h-3" />Approve
+                        <Button
+                          size="sm"
+                          className="h-7 px-2 gap-1 text-xs"
+                          onClick={() => openConfirm(r.id, "approve", r.clubName, r.competitionName)}
+                        >
+                          <Check className="w-3 h-3" />
+                          Approve
                         </Button>
-                        <Button size="sm" variant="outline" className="h-7 px-2 gap-1 text-xs text-destructive hover:text-destructive" onClick={() => updateStatus(r.id, "Rejected")}>
-                          <X className="w-3 h-3" />Reject
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7 px-2 gap-1 text-xs text-destructive hover:text-destructive"
+                          onClick={() => openConfirm(r.id, "reject", r.clubName, r.competitionName)}
+                        >
+                          <X className="w-3 h-3" />
+                          Reject
                         </Button>
                       </div>
                     </TableCell>

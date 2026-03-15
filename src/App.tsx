@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { RoleProvider } from "@/context/RoleContext";
 import { AppShell } from "@/components/layout/AppShell";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Owner pages
 import OwnerOverview from "./pages/owner/OwnerOverview";
@@ -24,6 +25,28 @@ import MatchSheet from "./pages/eo/MatchSheet";
 import Standings from "./pages/eo/Standings";
 import Reports from "./pages/eo/Reports";
 
+// Competition pages
+import CompetitionOverview from "./pages/competition/CompetitionOverview";
+import CompetitionSetup from "./pages/competition/CompetitionSetup";
+import CompetitionDetails from "./pages/competition/CompetitionDetails";
+import UserManagement from "./pages/competition/UserManagement";
+import CompetitionRules from "./pages/competition/CompetitionRules";
+import ParticipantRegistration from "./pages/competition/ParticipantRegistration";
+import WaiverManagement from "./pages/competition/WaiverManagement";
+import MatchManagement from "./pages/competition/MatchManagement";
+import RefereeAssignment from "./pages/competition/RefereeAssignment";
+import ScoringSystem from "./pages/competition/ScoringSystem";
+import PrizePrizeDistribution from "./pages/competition/PrizePrizeDistribution";
+import DocumentManagement from "./pages/competition/DocumentManagement";
+import CompetitionBudget from "./pages/competition/CompetitionBudget";
+import CompetitionApproval from "./pages/competition/CompetitionApproval";
+import Announcement from "./pages/competition/Announcement";
+import CompetitionReports from "./pages/competition/CompetitionReports";
+import VolunteerManagement from "./pages/competition/VolunteerManagement";
+import VenueManagement from "./pages/competition/VenueManagement";
+import OrganizationHierarchy from "./pages/competition/OrganizationHierarchy";
+import RegistrationStatus from "./pages/competition/RegistrationStatus";
+
 // Club pages
 import ClubOverview from "./pages/club/ClubOverview";
 import Players from "./pages/club/Players";
@@ -32,6 +55,58 @@ import Roster from "./pages/club/Roster";
 import MatchDay from "./pages/club/MatchDay";
 import MatchHistory from "./pages/club/MatchHistory";
 import ClubFinancial from "./pages/club/ClubFinancial";
+
+// Admin pages - Dashboard & Analytics
+import PlatformDashboard from "./pages/admin/PlatformDashboard";
+import GlobalAnalytics from "./pages/admin/GlobalAnalytics";
+import RevenueAnalytics from "./pages/admin/RevenueAnalytics";
+
+// Admin pages - Monitoring
+import SystemMonitoring from "./pages/admin/SystemMonitoring";
+import UserMonitoring from "./pages/admin/UserMonitoring";
+import OrganizationMonitoring from "./pages/admin/OrganizationMonitoring";
+import EventOrganizerManagement from "./pages/admin/EventOrganizerManagement";
+import CompetitionMonitoring from "./pages/admin/CompetitionMonitoring";
+import PlayerMonitoring from "./pages/admin/PlayerMonitoring";
+import MatchMonitoring from "./pages/admin/MatchMonitoring";
+import PerformanceMonitoring from "./pages/admin/PerformanceMonitoring";
+import ServiceMonitoring from "./pages/admin/ServiceMonitoring";
+import APIMonitoring from "./pages/admin/APIMonitoring";
+
+// Admin pages - Platform Management
+import SubscriptionManagement from "./pages/admin/SubscriptionManagement";
+import PlatformBilling from "./pages/admin/PlatformBilling";
+import PlatformFeeSettings from "./pages/admin/PlatformFeeSettings";
+import PaymentReconciliation from "./pages/admin/PaymentReconciliation";
+
+// Admin pages - Configuration
+import PlatformConfiguration from "./pages/admin/PlatformConfiguration";
+import GlobalSettings from "./pages/admin/GlobalSettings";
+import LocalizationSettings from "./pages/admin/LocalizationSettings";
+import BrandingConfiguration from "./pages/admin/BrandingConfiguration";
+import MaintenanceMode from "./pages/admin/MaintenanceMode";
+
+// Admin pages - System Management
+import SystemLogs from "./pages/admin/SystemLogs";
+import SystemBackup from "./pages/admin/SystemBackup";
+import SystemRestore from "./pages/admin/SystemRestore";
+import DataExport from "./pages/admin/DataExport";
+import DataImport from "./pages/admin/DataImport";
+import FeatureFlagManagement from "./pages/admin/FeatureFlagManagement";
+
+// Admin pages - Security & Compliance
+import ErrorTracking from "./pages/admin/ErrorTracking";
+import AccessLogs from "./pages/admin/AccessLogs";
+import AdminActivityLog from "./pages/admin/AdminActivityLog";
+import SecurityAlerts from "./pages/admin/SecurityAlerts";
+import ComplianceDashboard from "./pages/admin/ComplianceDashboard";
+import AuditReports from "./pages/admin/AuditReports";
+
+// Admin pages - Developer Tools
+import APIKeyManagement from "./pages/admin/APIKeyManagement";
+import APIUsageAnalytics from "./pages/admin/APIUsageAnalytics";
+import WebhookManagement from "./pages/admin/WebhookManagement";
+import IntegrationSettings from "./pages/admin/IntegrationSettings";
 
 import NotFound from "./pages/NotFound";
 
@@ -42,10 +117,11 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <RoleProvider>
-          <AppShell>
-            <Routes>
+      <ErrorBoundary>
+        <BrowserRouter>
+          <RoleProvider>
+            <AppShell>
+              <Routes>
               <Route path="/" element={<Navigate to="/owner/overview" replace />} />
               {/* Owner */}
               <Route path="/owner/overview" element={<OwnerOverview />} />
@@ -63,6 +139,27 @@ const App = () => (
               <Route path="/eo/match-sheet" element={<MatchSheet />} />
               <Route path="/eo/standings" element={<Standings />} />
               <Route path="/eo/reports" element={<Reports />} />
+              {/* Competition */}
+              <Route path="/competition/overview" element={<CompetitionOverview />} />
+              <Route path="/competition/setup" element={<CompetitionSetup />} />
+              <Route path="/competition/details" element={<CompetitionDetails />} />
+              <Route path="/competition/users" element={<UserManagement />} />
+              <Route path="/competition/rules" element={<CompetitionRules />} />
+              <Route path="/competition/registration" element={<ParticipantRegistration />} />
+              <Route path="/competition/waivers" element={<WaiverManagement />} />
+              <Route path="/competition/matches" element={<MatchManagement />} />
+              <Route path="/competition/referees" element={<RefereeAssignment />} />
+              <Route path="/competition/scoring" element={<ScoringSystem />} />
+              <Route path="/competition/prizes" element={<PrizePrizeDistribution />} />
+              <Route path="/competition/documents" element={<DocumentManagement />} />
+              <Route path="/competition/budget" element={<CompetitionBudget />} />
+              <Route path="/competition/approval" element={<CompetitionApproval />} />
+              <Route path="/competition/announcements" element={<Announcement />} />
+              <Route path="/competition/reports" element={<CompetitionReports />} />
+              <Route path="/competition/volunteers" element={<VolunteerManagement />} />
+              <Route path="/competition/venues" element={<VenueManagement />} />
+              <Route path="/competition/hierarchy" element={<OrganizationHierarchy />} />
+              <Route path="/competition/status" element={<RegistrationStatus />} />
               {/* Club */}
               <Route path="/club/overview" element={<ClubOverview />} />
               <Route path="/club/players" element={<Players />} />
@@ -71,11 +168,57 @@ const App = () => (
               <Route path="/club/match-day" element={<MatchDay />} />
               <Route path="/club/match-history" element={<MatchHistory />} />
               <Route path="/club/financial" element={<ClubFinancial />} />
+              {/* Admin - Dashboard */}
+              <Route path="/admin/dashboard" element={<PlatformDashboard />} />
+              <Route path="/admin/analytics" element={<GlobalAnalytics />} />
+              <Route path="/admin/revenue" element={<RevenueAnalytics />} />
+              {/* Admin - Monitoring */}
+              <Route path="/admin/system-monitoring" element={<SystemMonitoring />} />
+              <Route path="/admin/user-monitoring" element={<UserMonitoring />} />
+              <Route path="/admin/organization-monitoring" element={<OrganizationMonitoring />} />
+              <Route path="/admin/eo-management" element={<EventOrganizerManagement />} />
+              <Route path="/admin/competition-monitoring" element={<CompetitionMonitoring />} />
+              <Route path="/admin/player-monitoring" element={<PlayerMonitoring />} />
+              <Route path="/admin/match-monitoring" element={<MatchMonitoring />} />
+              <Route path="/admin/performance-monitoring" element={<PerformanceMonitoring />} />
+              <Route path="/admin/service-monitoring" element={<ServiceMonitoring />} />
+              <Route path="/admin/api-monitoring" element={<APIMonitoring />} />
+              {/* Admin - Platform Management */}
+              <Route path="/admin/subscriptions" element={<SubscriptionManagement />} />
+              <Route path="/admin/billing" element={<PlatformBilling />} />
+              <Route path="/admin/fee-settings" element={<PlatformFeeSettings />} />
+              <Route path="/admin/payment-reconciliation" element={<PaymentReconciliation />} />
+              {/* Admin - Configuration */}
+              <Route path="/admin/platform-config" element={<PlatformConfiguration />} />
+              <Route path="/admin/global-settings" element={<GlobalSettings />} />
+              <Route path="/admin/localization" element={<LocalizationSettings />} />
+              <Route path="/admin/branding" element={<BrandingConfiguration />} />
+              <Route path="/admin/maintenance" element={<MaintenanceMode />} />
+              {/* Admin - System Management */}
+              <Route path="/admin/logs" element={<SystemLogs />} />
+              <Route path="/admin/backup" element={<SystemBackup />} />
+              <Route path="/admin/restore" element={<SystemRestore />} />
+              <Route path="/admin/data-export" element={<DataExport />} />
+              <Route path="/admin/data-import" element={<DataImport />} />
+              <Route path="/admin/feature-flags" element={<FeatureFlagManagement />} />
+              {/* Admin - Security & Compliance */}
+              <Route path="/admin/errors" element={<ErrorTracking />} />
+              <Route path="/admin/access-logs" element={<AccessLogs />} />
+              <Route path="/admin/admin-activity" element={<AdminActivityLog />} />
+              <Route path="/admin/security-alerts" element={<SecurityAlerts />} />
+              <Route path="/admin/compliance" element={<ComplianceDashboard />} />
+              <Route path="/admin/audit-reports" element={<AuditReports />} />
+              {/* Admin - Developer Tools */}
+              <Route path="/admin/api-keys" element={<APIKeyManagement />} />
+              <Route path="/admin/api-usage" element={<APIUsageAnalytics />} />
+              <Route path="/admin/webhooks" element={<WebhookManagement />} />
+              <Route path="/admin/integrations" element={<IntegrationSettings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AppShell>
         </RoleProvider>
       </BrowserRouter>
+      </ErrorBoundary>
     </TooltipProvider>
   </QueryClientProvider>
 );

@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
-import { Check, ChevronRight } from "lucide-react";
+import { Check, ChevronRight, AlertCircle } from "lucide-react";
+import { validateCompetitionForm, getFieldError, ValidationError } from "@/lib/validation";
 
 const steps = ["Info Dasar", "Format", "Kelompok Umur", "Biaya & Tanggal", "Review"];
 
@@ -20,6 +22,7 @@ const ageGroups = ["U10", "U11", "U12", "U13", "U14", "U15", "U16", "U17", "Open
 export default function CreateCompetition() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+  const [errors, setErrors] = useState<ValidationError[]>([]);
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -30,7 +33,33 @@ export default function CreateCompetition() {
     endDate: "",
   });
 
-  const update = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
+  const update = (k: string, v: string) => {
+    setForm((f) => ({ ...f, [k]: v }));
+    // Clear error for this field when user starts typing
+    setErrors((err) => err.filter((e) => e.field !== k));
+  };
+
+  const validateStep = () => {
+    const validation = validateCompetitionForm(form);
+    if (!validation.isValid) {
+      setErrors(validation.errors);
+      return false;
+    }
+    setErrors([]);
+    return true;
+  };
+
+  const handleNext = () => {
+    if (validateStep()) {
+      if (step === steps.length - 1) {
+        // Submit
+        navigate("/eo/competitions");
+      } else {
+        setStep((s) => s + 1);
+      }
+    }
+  };
+
   const canNext = [
     form.name.length > 2,
     !!form.format,
@@ -65,15 +94,43 @@ export default function CreateCompetition() {
       <Card>
         <CardHeader><CardTitle className="text-base">{steps[step]}</CardTitle></CardHeader>
         <CardContent className="space-y-4">
+          {errors.length > 0 && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                <div className="space-y-1">
+                  <p className="font-medium">Ada kesalahan dalam formulir:</p>
+                  <ul className="list-disc list-inside text-sm">
+                    {errors.map((err) => (
+                      <li key={err.field}>{err.message}</li>
+                    ))}
+                  </ul>
+                </div>
+              </AlertDescription>
+            </Alert>
+          )}
+
           {step === 0 && (
             <>
               <div className="space-y-2">
                 <Label className="text-sm">Nama Kompetisi *</Label>
-                <Input value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="cth. Liga Makassar U13 2024" />
+                <Input 
+                  value={form.name} 
+                  onChange={(e) => update("name", e.target.value)} 
+                  placeholder="cth. Liga Makassar U13 2024"
+                  className={getFieldError(errors, "name") ? "border-destructive" : ""}
+                />
+                {getFieldError(errors, "name") && (
+                  <p className="text-xs text-destructive">{getFieldError(errors, "name")}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label className="text-sm">Deskripsi</Label>
-                <Input value={form.description} onChange={(e) => update("description", e.target.value)} placeholder="Deskripsi singkat kompetisi..." />
+                <Input 
+                  value={form.description} 
+                  onChange={(e) => update("description", e.target.value)} 
+                  placeholder="Deskripsi singkat kompetisi..." 
+                />
               </div>
             </>
           )}
@@ -117,16 +174,41 @@ export default function CreateCompetition() {
             <>
               <div className="space-y-2">
                 <Label className="text-sm">Biaya Registrasi (Rp) *</Label>
-                <Input type="number" value={form.registrationFee} onChange={(e) => update("registrationFee", e.target.value)} placeholder="500000" />
+                <Input 
+                  type="number" 
+                  value={form.registrationFee} 
+                  onChange={(e) => update("registrationFee", e.target.value)} 
+                  placeholder="500000"
+                  className={getFieldError(errors, "registrationFee") ? "border-destructive" : ""}
+                />
+                {getFieldError(errors, "registrationFee") && (
+                  <p className="text-xs text-destructive">{getFieldError(errors, "registrationFee")}</p>
+                )}
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
                   <Label className="text-sm">Tanggal Mulai *</Label>
-                  <Input type="date" value={form.startDate} onChange={(e) => update("startDate", e.target.value)} />
+                  <Input 
+                    type="date" 
+                    value={form.startDate} 
+                    onChange={(e) => update("startDate", e.target.value)}
+                    className={getFieldError(errors, "startDate") ? "border-destructive" : ""}
+                  />
+                  {getFieldError(errors, "startDate") && (
+                    <p className="text-xs text-destructive">{getFieldError(errors, "startDate")}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label className="text-sm">Tanggal Selesai</Label>
-                  <Input type="date" value={form.endDate} onChange={(e) => update("endDate", e.target.value)} />
+                  <Input 
+                    type="date" 
+                    value={form.endDate} 
+                    onChange={(e) => update("endDate", e.target.value)}
+                    className={getFieldError(errors, "endDate") ? "border-destructive" : ""}
+                  />
+                  {getFieldError(errors, "endDate") && (
+                    <p className="text-xs text-destructive">{getFieldError(errors, "endDate")}</p>
+                  )}
                 </div>
               </div>
             </>
@@ -154,7 +236,7 @@ export default function CreateCompetition() {
         <Button variant="outline" size="sm" onClick={() => step > 0 ? setStep((s) => s - 1) : navigate("/eo/competitions")} className="gap-1">
           {step === 0 ? "Batal" : "Kembali"}
         </Button>
-        <Button size="sm" disabled={!canNext} onClick={() => step < steps.length - 1 ? setStep((s) => s + 1) : navigate("/eo/competitions")} className="gap-1">
+        <Button size="sm" disabled={!canNext} onClick={handleNext} className="gap-1">
           {step === steps.length - 1 ? "Simpan Kompetisi" : "Lanjut"}
           {step < steps.length - 1 && <ChevronRight className="w-4 h-4" />}
         </Button>

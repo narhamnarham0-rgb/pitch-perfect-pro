@@ -9,6 +9,7 @@ import {
   LayoutDashboard, Users, Trophy, Calendar, ClipboardList, BarChart3,
   Settings, CreditCard, ScrollText, Building2, UserCheck, Medal,
   Swords, ListOrdered, FileText, Shield, Shirt, History, Wallet, UserPlus, QrCode,
+  Monitor, MoreVertical, Zap, Lock, CheckSquare, Code, Key, Webhook, Palette,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -37,6 +38,24 @@ const eoNav = [
     { title: "Standings", url: "/eo/standings", icon: ListOrdered },
     { title: "Reports", url: "/eo/reports", icon: BarChart3 },
   ]},
+  { group: "Competition Mgmt", items: [
+    { title: "Competition Setup", url: "/competition/setup", icon: Settings },
+    { title: "User Management", url: "/competition/users", icon: Users },
+    { title: "Rules", url: "/competition/rules", icon: ScrollText },
+    { title: "Participant Registration", url: "/competition/registration", icon: UserPlus },
+    { title: "Waivers", url: "/competition/waivers", icon: FileText },
+    { title: "Matches", url: "/competition/matches", icon: Swords },
+    { title: "Referees", url: "/competition/referees", icon: UserCheck },
+    { title: "Scoring", url: "/competition/scoring", icon: BarChart3 },
+    { title: "Prizes", url: "/competition/prizes", icon: Trophy },
+    { title: "Documents", url: "/competition/documents", icon: ScrollText },
+    { title: "Budget", url: "/competition/budget", icon: CreditCard },
+    { title: "Approval", url: "/competition/approval", icon: CheckSquare },
+    { title: "Announcements", url: "/competition/announcements", icon: Zap },
+    { title: "Volunteers", url: "/competition/volunteers", icon: Users },
+    { title: "Venues", url: "/competition/venues", icon: Building2 },
+    { title: "Organization", url: "/competition/hierarchy", icon: Building2 },
+  ]},
 ];
 
 const clubNav = [
@@ -55,7 +74,62 @@ const clubNav = [
   ]},
 ];
 
-const navMap = { owner: ownerNav, eo: eoNav, club: clubNav };
+const adminNav = [
+  { group: "Dashboard", items: [
+    { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
+    { title: "Global Analytics", url: "/admin/analytics", icon: BarChart3 },
+    { title: "Revenue Analytics", url: "/admin/revenue", icon: CreditCard },
+  ]},
+  { group: "Monitoring", items: [
+    { title: "System Status", url: "/admin/system-monitoring", icon: Monitor },
+    { title: "Users", url: "/admin/user-monitoring", icon: Users },
+    { title: "Organizations", url: "/admin/organization-monitoring", icon: Building2 },
+    { title: "Event Organizers", url: "/admin/eo-management", icon: UserCheck },
+    { title: "Competitions", url: "/admin/competition-monitoring", icon: Trophy },
+    { title: "Players", url: "/admin/player-monitoring", icon: Users },
+    { title: "Matches", url: "/admin/match-monitoring", icon: Swords },
+    { title: "Performance", url: "/admin/performance-monitoring", icon: Zap },
+    { title: "Services", url: "/admin/service-monitoring", icon: MoreVertical },
+    { title: "API Endpoints", url: "/admin/api-monitoring", icon: Code },
+  ]},
+  { group: "Platform", items: [
+    { title: "Subscriptions", url: "/admin/subscriptions", icon: CreditCard },
+    { title: "Billing", url: "/admin/billing", icon: Wallet },
+    { title: "Fee Settings", url: "/admin/fee-settings", icon: Settings },
+    { title: "Payment Reconciliation", url: "/admin/payment-reconciliation", icon: CheckSquare },
+  ]},
+  { group: "Configuration", items: [
+    { title: "Platform Config", url: "/admin/platform-config", icon: Settings },
+    { title: "Global Settings", url: "/admin/global-settings", icon: Settings },
+    { title: "Localization", url: "/admin/localization", icon: MoreVertical },
+    { title: "Branding", url: "/admin/branding", icon: Palette },
+    { title: "Maintenance", url: "/admin/maintenance", icon: Zap },
+  ]},
+  { group: "System", items: [
+    { title: "System Logs", url: "/admin/logs", icon: ScrollText },
+    { title: "Backup", url: "/admin/backup", icon: FileText },
+    { title: "Restore", url: "/admin/restore", icon: FileText },
+    { title: "Data Export", url: "/admin/data-export", icon: FileText },
+    { title: "Data Import", url: "/admin/data-import", icon: FileText },
+    { title: "Feature Flags", url: "/admin/feature-flags", icon: Zap },
+  ]},
+  { group: "Security", items: [
+    { title: "Error Tracking", url: "/admin/errors", icon: ScrollText },
+    { title: "Access Logs", url: "/admin/access-logs", icon: ScrollText },
+    { title: "Admin Activity", url: "/admin/admin-activity", icon: ScrollText },
+    { title: "Security Alerts", url: "/admin/security-alerts", icon: Lock },
+    { title: "Compliance", url: "/admin/compliance", icon: CheckSquare },
+    { title: "Audit Reports", url: "/admin/audit-reports", icon: FileText },
+  ]},
+  { group: "Developer", items: [
+    { title: "API Keys", url: "/admin/api-keys", icon: Key },
+    { title: "API Usage", url: "/admin/api-usage", icon: BarChart3 },
+    { title: "Webhooks", url: "/admin/webhooks", icon: Webhook },
+    { title: "Integrations", url: "/admin/integrations", icon: Zap },
+  ]},
+];
+
+const navMap = { owner: ownerNav, eo: eoNav, club: clubNav, admin: adminNav };
 
 export function AppSidebar() {
   const { role } = useRole();
@@ -68,11 +142,13 @@ export function AppSidebar() {
     owner: "bg-gold text-gold-foreground",
     eo: "bg-primary text-primary-foreground",
     club: "bg-navy text-navy-foreground",
+    admin: "bg-slate-600 text-white",
   };
   const roleLabels: Record<string, string> = {
     owner: "Owner",
     eo: "Event Organizer",
     club: "Club",
+    admin: "System Admin",
   };
 
   return (
