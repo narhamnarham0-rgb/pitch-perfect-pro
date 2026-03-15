@@ -10,6 +10,7 @@ import {
   Settings, CreditCard, ScrollText, Building2, UserCheck, Medal,
   Swords, ListOrdered, FileText, Shield, Shirt, History, Wallet, UserPlus, QrCode,
   Monitor, MoreVertical, Zap, Lock, CheckSquare, Code, Key, Webhook, Palette,
+  Activity, Archive, BarChart4, Target,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -32,11 +33,22 @@ const eoNav = [
     { title: "Competitions", url: "/eo/competitions", icon: Trophy },
     { title: "Club Registration", url: "/eo/registrations", icon: UserCheck },
   ]},
-  { group: "Match Ops", items: [
+  { group: "Match Operations", items: [
     { title: "Schedule", url: "/eo/schedule", icon: Calendar },
     { title: "Match Sheet", url: "/eo/match-sheet", icon: ClipboardList },
     { title: "Standings", url: "/eo/standings", icon: ListOrdered },
     { title: "Reports", url: "/eo/reports", icon: BarChart3 },
+  ]},
+  { group: "Match Management", items: [
+    { title: "Match Scheduler", url: "/match/scheduler", icon: Calendar },
+    { title: "Referee Assignment", url: "/match/referees", icon: UserCheck },
+    { title: "Lineup", url: "/match/lineup", icon: Users },
+    { title: "Live Events", url: "/match/events", icon: Activity },
+    { title: "Timeline", url: "/match/timeline", icon: Activity },
+    { title: "Statistics", url: "/match/statistics", icon: BarChart3 },
+    { title: "Player Ratings", url: "/match/ratings", icon: Target },
+    { title: "Tactical Analysis", url: "/match/tactics", icon: BarChart4 },
+    { title: "Archive", url: "/match/archive", icon: Archive },
   ]},
   { group: "Competition Mgmt", items: [
     { title: "Competition Setup", url: "/competition/setup", icon: Settings },

@@ -25,6 +25,17 @@ import MatchSheet from "./pages/eo/MatchSheet";
 import Standings from "./pages/eo/Standings";
 import Reports from "./pages/eo/Reports";
 
+// Match Management pages
+import MatchScheduler from "./pages/match/setup/MatchScheduler";
+import RefereeAssignment from "./pages/match/setup/RefereeAssignment";
+import LineupSubmission from "./pages/match/lineup/LineupSubmission";
+import MatchEvents from "./pages/match/events/MatchEvents";
+import MatchTimeline from "./pages/match/data/MatchTimeline";
+import MatchStatistics from "./pages/match/data/MatchStatistics";
+import PlayerRatings from "./pages/match/data/PlayerRatings";
+import TacticalAnalysis from "./pages/match/analytics/TacticalAnalysis";
+import MatchArchive from "./pages/match/archive/MatchArchive";
+
 // Competition pages
 import CompetitionOverview from "./pages/competition/CompetitionOverview";
 import CompetitionSetup from "./pages/competition/CompetitionSetup";
@@ -147,6 +158,16 @@ const App = () => (
               <Route path="/eo/match-sheet" element={<MatchSheet />} />
               <Route path="/eo/standings" element={<Standings />} />
               <Route path="/eo/reports" element={<Reports />} />
+              {/* Match Management */}
+              <Route path="/match/scheduler" element={<MatchScheduler />} />
+              <Route path="/match/referees" element={<RefereeAssignment />} />
+              <Route path="/match/lineup" element={<LineupSubmission />} />
+              <Route path="/match/events" element={<MatchEvents />} />
+              <Route path="/match/timeline" element={<MatchTimeline />} />
+              <Route path="/match/statistics" element={<MatchStatistics />} />
+              <Route path="/match/ratings" element={<PlayerRatings />} />
+              <Route path="/match/tactics" element={<TacticalAnalysis />} />
+              <Route path="/match/archive" element={<MatchArchive />} />
               {/* Competition */}
               <Route path="/competition/overview" element={<CompetitionOverview />} />
               <Route path="/competition/setup" element={<CompetitionSetup />} />
