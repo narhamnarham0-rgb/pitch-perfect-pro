@@ -15,15 +15,53 @@ import {
 import { cn } from "@/lib/utils";
 
 const ownerNav = [
-  { group: "Platform", items: [
-    { title: "Overview", url: "/owner/overview", icon: LayoutDashboard },
-    { title: "EO Management", url: "/owner/eo-management", icon: Building2 },
-    { title: "Club Management", url: "/owner/club-management", icon: Shield },
-    { title: "Financial", url: "/owner/financial", icon: CreditCard },
+  { group: "Dashboard", items: [
+    { title: "Dashboard", url: "/owner/dashboard", icon: LayoutDashboard },
+    { title: "Overview", url: "/owner/overview", icon: BarChart3 },
   ]},
-  { group: "System", items: [
-    { title: "Audit Log", url: "/owner/audit-log", icon: ScrollText },
-    { title: "Config & RBAC", url: "/owner/config", icon: Settings },
+  { group: "Platform Management", items: [
+    { title: "Configuration", url: "/owner/platform-management/configuration", icon: Settings },
+    { title: "Settings", url: "/owner/platform-management/settings", icon: Settings },
+    { title: "Features", url: "/owner/platform-management/features", icon: Zap },
+    { title: "Branding", url: "/owner/platform-management/branding", icon: Palette },
+    { title: "Integrations", url: "/owner/platform-management/integrations", icon: Code },
+  ]},
+  { group: "User Management", items: [
+    { title: "Users", url: "/owner/users/management", icon: Users },
+    { title: "Audit Log", url: "/owner/users/audit", icon: ScrollText },
+  ]},
+  { group: "Organizations", items: [
+    { title: "Clubs", url: "/owner/organizations/clubs", icon: Building2 },
+    { title: "Event Organizers", url: "/owner/organizations/event-organizers", icon: UserCheck },
+    { title: "Monitoring", url: "/owner/organizations/monitoring", icon: Monitor },
+  ]},
+  { group: "Competitions", items: [
+    { title: "Monitoring", url: "/owner/competitions/monitoring", icon: Trophy },
+    { title: "Match Data", url: "/owner/competitions/matches", icon: Swords },
+  ]},
+  { group: "Finance", items: [
+    { title: "Dashboard", url: "/owner/finance/dashboard", icon: Wallet },
+    { title: "Reconciliation", url: "/owner/finance/reconciliation", icon: CheckSquare },
+    { title: "Billing", url: "/owner/finance/billing", icon: CreditCard },
+  ]},
+  { group: "Analytics", items: [
+    { title: "Global", url: "/owner/analytics/global", icon: BarChart3 },
+    { title: "Revenue", url: "/owner/analytics/revenue", icon: BarChart3 },
+  ]},
+  { group: "Infrastructure", items: [
+    { title: "System Monitor", url: "/owner/infrastructure/system-monitoring", icon: Monitor },
+    { title: "Performance", url: "/owner/infrastructure/performance", icon: Activity },
+    { title: "Logs", url: "/owner/infrastructure/logs", icon: ScrollText },
+    { title: "Backup", url: "/owner/infrastructure/backup", icon: Archive },
+  ]},
+  { group: "Security & Compliance", items: [
+    { title: "Alerts", url: "/owner/security/alerts", icon: Lock },
+    { title: "Reports", url: "/owner/security/reports", icon: FileText },
+    { title: "Audit", url: "/owner/security/audit", icon: ScrollText },
+  ]},
+  { group: "Developer Tools", items: [
+    { title: "API Keys", url: "/owner/developer-tools/api-keys", icon: Key },
+    { title: "Webhooks", url: "/owner/developer-tools/webhooks", icon: Webhook },
   ]},
 ];
 
@@ -97,60 +135,7 @@ const clubNav = [
   ]},
 ];
 
-const adminNav = [
-  { group: "Dashboard", items: [
-    { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
-    { title: "Global Analytics", url: "/admin/analytics", icon: BarChart3 },
-    { title: "Revenue Analytics", url: "/admin/revenue", icon: CreditCard },
-  ]},
-  { group: "Monitoring", items: [
-    { title: "System Status", url: "/admin/system-monitoring", icon: Monitor },
-    { title: "Users", url: "/admin/user-monitoring", icon: Users },
-    { title: "Organizations", url: "/admin/organization-monitoring", icon: Building2 },
-    { title: "Event Organizers", url: "/admin/eo-management", icon: UserCheck },
-    { title: "Competitions", url: "/admin/competition-monitoring", icon: Trophy },
-    { title: "Players", url: "/admin/player-monitoring", icon: Users },
-    { title: "Matches", url: "/admin/match-monitoring", icon: Swords },
-    { title: "Performance", url: "/admin/performance-monitoring", icon: Zap },
-    { title: "Services", url: "/admin/service-monitoring", icon: MoreVertical },
-    { title: "API Endpoints", url: "/admin/api-monitoring", icon: Code },
-  ]},
-  { group: "Platform", items: [
-    { title: "Subscriptions", url: "/admin/subscriptions", icon: CreditCard },
-    { title: "Billing", url: "/admin/billing", icon: Wallet },
-    { title: "Fee Settings", url: "/admin/fee-settings", icon: Settings },
-    { title: "Payment Reconciliation", url: "/admin/payment-reconciliation", icon: CheckSquare },
-  ]},
-  { group: "Configuration", items: [
-    { title: "Platform Config", url: "/admin/platform-config", icon: Settings },
-    { title: "Global Settings", url: "/admin/global-settings", icon: Settings },
-    { title: "Localization", url: "/admin/localization", icon: MoreVertical },
-    { title: "Branding", url: "/admin/branding", icon: Palette },
-    { title: "Maintenance", url: "/admin/maintenance", icon: Zap },
-  ]},
-  { group: "System", items: [
-    { title: "System Logs", url: "/admin/logs", icon: ScrollText },
-    { title: "Backup", url: "/admin/backup", icon: FileText },
-    { title: "Restore", url: "/admin/restore", icon: FileText },
-    { title: "Data Export", url: "/admin/data-export", icon: FileText },
-    { title: "Data Import", url: "/admin/data-import", icon: FileText },
-    { title: "Feature Flags", url: "/admin/feature-flags", icon: Zap },
-  ]},
-  { group: "Security", items: [
-    { title: "Error Tracking", url: "/admin/errors", icon: ScrollText },
-    { title: "Access Logs", url: "/admin/access-logs", icon: ScrollText },
-    { title: "Admin Activity", url: "/admin/admin-activity", icon: ScrollText },
-    { title: "Security Alerts", url: "/admin/security-alerts", icon: Lock },
-    { title: "Compliance", url: "/admin/compliance", icon: CheckSquare },
-    { title: "Audit Reports", url: "/admin/audit-reports", icon: FileText },
-  ]},
-  { group: "Developer", items: [
-    { title: "API Keys", url: "/admin/api-keys", icon: Key },
-    { title: "API Usage", url: "/admin/api-usage", icon: BarChart3 },
-    { title: "Webhooks", url: "/admin/webhooks", icon: Webhook },
-    { title: "Integrations", url: "/admin/integrations", icon: Zap },
-  ]},
-];
+const adminNav = ownerNav; // Admin uses same navigation as Owner
 
 const navMap = { owner: ownerNav, eo: eoNav, club: clubNav, admin: adminNav };
 

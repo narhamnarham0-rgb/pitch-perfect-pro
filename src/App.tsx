@@ -144,14 +144,62 @@ const App = () => (
           <RoleProvider>
             <AppShell>
               <Routes>
-              <Route path="/" element={<Navigate to="/owner/overview" replace />} />
-              {/* Owner */}
+              <Route path="/" element={<Navigate to="/owner/dashboard" replace />} />
+              {/* Owner - Dashboard */}
+              <Route path="/owner/dashboard" element={<OwnerDashboard />} />
               <Route path="/owner/overview" element={<OwnerOverview />} />
-              <Route path="/owner/eo-management" element={<EOManagement />} />
-              <Route path="/owner/club-management" element={<ClubManagement />} />
-              <Route path="/owner/financial" element={<OwnerFinancial />} />
-              <Route path="/owner/audit-log" element={<AuditLog />} />
-              <Route path="/owner/config" element={<SystemConfig />} />
+              {/* Owner - Platform Management */}
+              <Route path="/owner/platform-management/configuration" element={<PlatformConfiguration />} />
+              <Route path="/owner/platform-management/settings" element={<SystemSettings />} />
+              <Route path="/owner/platform-management/features" element={<FeatureFlags />} />
+              <Route path="/owner/platform-management/maintenance" element={<MaintenanceMode />} />
+              <Route path="/owner/platform-management/branding" element={<BrandingConfiguration />} />
+              <Route path="/owner/platform-management/integrations" element={<IntegrationSettings />} />
+              <Route path="/owner/platform-management/localization" element={<LocalizationSettings />} />
+              {/* Owner - Users */}
+              <Route path="/owner/users/management" element={<UserManagement />} />
+              <Route path="/owner/users/audit" element={<UserAuditLog />} />
+              <Route path="/owner/users/logs" element={<AuditLog />} />
+              {/* Owner - Organizations */}
+              <Route path="/owner/organizations/clubs" element={<ClubManagement />} />
+              <Route path="/owner/organizations/event-organizers" element={<EOManagement />} />
+              <Route path="/owner/organizations/monitoring" element={<OrganizationMonitoring />} />
+              <Route path="/owner/organizations/subscriptions" element={<SubscriptionManagement />} />
+              {/* Owner - Competitions */}
+              <Route path="/owner/competitions/monitoring" element={<CompetitionMonitoring />} />
+              <Route path="/owner/competitions/matches" element={<MatchMonitoring />} />
+              <Route path="/owner/competitions/players" element={<PlayerMonitoring />} />
+              {/* Owner - Finance */}
+              <Route path="/owner/finance/dashboard" element={<OwnerFinancial />} />
+              <Route path="/owner/finance/reconciliation" element={<PaymentReconciliation />} />
+              <Route path="/owner/finance/fee-settings" element={<PlatformFeeSettings />} />
+              <Route path="/owner/finance/billing" element={<BillingManagement />} />
+              {/* Owner - Analytics */}
+              <Route path="/owner/analytics/global" element={<GlobalAnalytics />} />
+              <Route path="/owner/analytics/revenue" element={<RevenueAnalytics />} />
+              {/* Owner - Infrastructure */}
+              <Route path="/owner/infrastructure/system-monitoring" element={<SystemMonitoring />} />
+              <Route path="/owner/infrastructure/performance" element={<PerformanceMonitoring />} />
+              <Route path="/owner/infrastructure/services" element={<ServiceMonitoring />} />
+              <Route path="/owner/infrastructure/logs" element={<LogManagement />} />
+              <Route path="/owner/infrastructure/backup" element={<SystemBackup />} />
+              <Route path="/owner/infrastructure/restore" element={<SystemRestore />} />
+              <Route path="/owner/infrastructure/errors" element={<ErrorTracking />} />
+              <Route path="/owner/infrastructure/access-logs" element={<AccessLogs />} />
+              {/* Owner - Security */}
+              <Route path="/owner/security/alerts" element={<SecurityAlerts />} />
+              <Route path="/owner/security/reports" element={<ComplianceReports />} />
+              <Route path="/owner/security/audit" element={<SecurityAudit />} />
+              {/* Owner - Developer Tools */}
+              <Route path="/owner/developer-tools/api-keys" element={<APIKeyManagement />} />
+              <Route path="/owner/developer-tools/webhooks" element={<WebhookManagement />} />
+              <Route path="/owner/developer-tools/monitoring" element={<APIMonitoring />} />
+              {/* Owner - Compliance */}
+              <Route path="/owner/compliance/config" element={<SystemConfig />} />
+              <Route path="/owner/compliance/import" element={<DataImport />} />
+              <Route path="/owner/compliance/export" element={<DataExport />} />
+              {/* Backward compatibility redirects */}
+              <Route path="/admin/*" element={<Navigate to="/owner/dashboard" replace />} />
               {/* EO */}
               <Route path="/eo/overview" element={<EOOverview />} />
               <Route path="/eo/competitions" element={<Competitions />} />
@@ -208,51 +256,7 @@ const App = () => (
               <Route path="/club/staff/medical" element={<MedicalStaff />} />
               {/* Club Analytics routes */}
               <Route path="/club/analytics/player-statistics" element={<PlayerStatistics />} />
-              {/* Admin - Dashboard */}
-              <Route path="/admin/dashboard" element={<PlatformDashboard />} />
-              <Route path="/admin/analytics" element={<GlobalAnalytics />} />
-              <Route path="/admin/revenue" element={<RevenueAnalytics />} />
-              {/* Admin - Monitoring */}
-              <Route path="/admin/system-monitoring" element={<SystemMonitoring />} />
-              <Route path="/admin/user-monitoring" element={<UserMonitoring />} />
-              <Route path="/admin/organization-monitoring" element={<OrganizationMonitoring />} />
-              <Route path="/admin/eo-management" element={<EventOrganizerManagement />} />
-              <Route path="/admin/competition-monitoring" element={<CompetitionMonitoring />} />
-              <Route path="/admin/player-monitoring" element={<PlayerMonitoring />} />
-              <Route path="/admin/match-monitoring" element={<MatchMonitoring />} />
-              <Route path="/admin/performance-monitoring" element={<PerformanceMonitoring />} />
-              <Route path="/admin/service-monitoring" element={<ServiceMonitoring />} />
-              <Route path="/admin/api-monitoring" element={<APIMonitoring />} />
-              {/* Admin - Platform Management */}
-              <Route path="/admin/subscriptions" element={<SubscriptionManagement />} />
-              <Route path="/admin/billing" element={<PlatformBilling />} />
-              <Route path="/admin/fee-settings" element={<PlatformFeeSettings />} />
-              <Route path="/admin/payment-reconciliation" element={<PaymentReconciliation />} />
-              {/* Admin - Configuration */}
-              <Route path="/admin/platform-config" element={<PlatformConfiguration />} />
-              <Route path="/admin/global-settings" element={<GlobalSettings />} />
-              <Route path="/admin/localization" element={<LocalizationSettings />} />
-              <Route path="/admin/branding" element={<BrandingConfiguration />} />
-              <Route path="/admin/maintenance" element={<MaintenanceMode />} />
-              {/* Admin - System Management */}
-              <Route path="/admin/logs" element={<SystemLogs />} />
-              <Route path="/admin/backup" element={<SystemBackup />} />
-              <Route path="/admin/restore" element={<SystemRestore />} />
-              <Route path="/admin/data-export" element={<DataExport />} />
-              <Route path="/admin/data-import" element={<DataImport />} />
-              <Route path="/admin/feature-flags" element={<FeatureFlagManagement />} />
-              {/* Admin - Security & Compliance */}
-              <Route path="/admin/errors" element={<ErrorTracking />} />
-              <Route path="/admin/access-logs" element={<AccessLogs />} />
-              <Route path="/admin/admin-activity" element={<AdminActivityLog />} />
-              <Route path="/admin/security-alerts" element={<SecurityAlerts />} />
-              <Route path="/admin/compliance" element={<ComplianceDashboard />} />
-              <Route path="/admin/audit-reports" element={<AuditReports />} />
-              {/* Admin - Developer Tools */}
-              <Route path="/admin/api-keys" element={<APIKeyManagement />} />
-              <Route path="/admin/api-usage" element={<APIUsageAnalytics />} />
-              <Route path="/admin/webhooks" element={<WebhookManagement />} />
-              <Route path="/admin/integrations" element={<IntegrationSettings />} />
+              {/* 404 - Catch-all */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AppShell>
