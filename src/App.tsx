@@ -207,6 +207,150 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// ============================================================================
+// Route Configurations - Organized by Domain
+// ============================================================================
+
+// Owner Routes (Platform Administration)
+const ownerRoutes = [
+  { path: "/owner/dashboard", element: <OwnerDashboard /> },
+  { path: "/owner/overview", element: <OwnerOverview /> },
+  // Platform Management
+  { path: "/owner/platform-management/configuration", element: <PlatformConfiguration /> },
+  { path: "/owner/platform-management/settings", element: <SystemSettings /> },
+  { path: "/owner/platform-management/features", element: <FeatureFlags /> },
+  { path: "/owner/platform-management/maintenance", element: <MaintenanceMode /> },
+  { path: "/owner/platform-management/branding", element: <BrandingConfiguration /> },
+  { path: "/owner/platform-management/integrations", element: <IntegrationSettings /> },
+  { path: "/owner/platform-management/localization", element: <LocalizationSettings /> },
+  // Users Management
+  { path: "/owner/users/management", element: <UserManagement /> },
+  { path: "/owner/users/audit", element: <UserAuditLog /> },
+  { path: "/owner/users/logs", element: <AuditLog /> },
+  // Organizations
+  { path: "/owner/organizations/clubs", element: <ClubManagement /> },
+  { path: "/owner/organizations/event-organizers", element: <EOManagement /> },
+  { path: "/owner/organizations/monitoring", element: <OrganizationMonitoring /> },
+  { path: "/owner/organizations/subscriptions", element: <SubscriptionManagement /> },
+  // Competitions
+  { path: "/owner/competitions/monitoring", element: <CompetitionMonitoring /> },
+  { path: "/owner/competitions/matches", element: <MatchMonitoring /> },
+  { path: "/owner/competitions/players", element: <PlayerMonitoring /> },
+  // Finance
+  { path: "/owner/finance/dashboard", element: <OwnerFinancial /> },
+  { path: "/owner/finance/reconciliation", element: <PaymentReconciliation /> },
+  { path: "/owner/finance/fee-settings", element: <PlatformFeeSettings /> },
+  { path: "/owner/finance/billing", element: <BillingManagement /> },
+  // Analytics
+  { path: "/owner/analytics/global", element: <GlobalAnalytics /> },
+  { path: "/owner/analytics/revenue", element: <RevenueAnalytics /> },
+  // Infrastructure
+  { path: "/owner/infrastructure/system-monitoring", element: <SystemMonitoring /> },
+  { path: "/owner/infrastructure/performance", element: <PerformanceMonitoring /> },
+  { path: "/owner/infrastructure/services", element: <ServiceMonitoring /> },
+  { path: "/owner/infrastructure/logs", element: <LogManagement /> },
+  { path: "/owner/infrastructure/backup", element: <SystemBackup /> },
+  { path: "/owner/infrastructure/restore", element: <SystemRestore /> },
+  { path: "/owner/infrastructure/errors", element: <ErrorTracking /> },
+  { path: "/owner/infrastructure/access-logs", element: <AccessLogs /> },
+  // Security
+  { path: "/owner/security/alerts", element: <SecurityAlerts /> },
+  { path: "/owner/security/reports", element: <ComplianceReports /> },
+  { path: "/owner/security/audit", element: <SecurityAudit /> },
+  // Developer Tools
+  { path: "/owner/developer-tools/api-keys", element: <APIKeyManagement /> },
+  { path: "/owner/developer-tools/webhooks", element: <WebhookManagement /> },
+  { path: "/owner/developer-tools/monitoring", element: <APIMonitoring /> },
+  // Compliance
+  { path: "/owner/compliance/config", element: <SystemConfig /> },
+  { path: "/owner/compliance/import", element: <DataImport /> },
+  { path: "/owner/compliance/export", element: <DataExport /> },
+  // Backward compatibility
+  { path: "/admin/*", element: <Navigate to="/owner/dashboard" replace /> },
+];
+
+// Event Organizer Routes
+const eoRoutes = [
+  { path: "/eo/overview", element: <EOOverview /> },
+  { path: "/eo/competitions", element: <Competitions /> },
+  { path: "/eo/competitions/create", element: <CreateCompetition /> },
+  { path: "/eo/registrations", element: <ClubRegistrations /> },
+  { path: "/eo/schedule", element: <Schedule /> },
+  { path: "/eo/match-sheet", element: <MatchSheet /> },
+  { path: "/eo/standings", element: <Standings /> },
+  { path: "/eo/reports", element: <Reports /> },
+];
+
+// Match Management Routes
+const matchRoutes = [
+  { path: "/match/scheduler", element: <MatchScheduler /> },
+  { path: "/match/referees", element: <RefereeAssignment /> },
+  { path: "/match/lineup", element: <LineupSubmission /> },
+  { path: "/match/events", element: <MatchEvents /> },
+  { path: "/match/timeline", element: <MatchTimeline /> },
+  { path: "/match/statistics", element: <MatchStatistics /> },
+  { path: "/match/ratings", element: <PlayerRatings /> },
+  { path: "/match/tactics", element: <TacticalAnalysis /> },
+  { path: "/match/archive", element: <MatchArchive /> },
+];
+
+// Competition Routes
+const competitionRoutes = [
+  { path: "/competition/overview", element: <CompetitionOverview /> },
+  { path: "/competition/setup", element: <CompetitionSetup /> },
+  { path: "/competition/details", element: <CompetitionDetails /> },
+  { path: "/competition/users", element: <CompetitionUserManagement /> },
+  { path: "/competition/rules", element: <CompetitionRules /> },
+  { path: "/competition/registration", element: <ParticipantRegistration /> },
+  { path: "/competition/waivers", element: <WaiverManagement /> },
+  { path: "/competition/matches", element: <MatchManagement /> },
+  { path: "/competition/referees", element: <CompetitionRefereeAssignment /> },
+  { path: "/competition/scoring", element: <ScoringSystem /> },
+  { path: "/competition/prizes", element: <PrizePrizeDistribution /> },
+  { path: "/competition/documents", element: <DocumentManagement /> },
+  { path: "/competition/budget", element: <CompetitionBudget /> },
+  { path: "/competition/approval", element: <CompetitionApproval /> },
+  { path: "/competition/announcements", element: <Announcement /> },
+  { path: "/competition/reports", element: <CompetitionReports /> },
+  { path: "/competition/volunteers", element: <VolunteerManagement /> },
+  { path: "/competition/venues", element: <VenueManagement /> },
+  { path: "/competition/hierarchy", element: <OrganizationHierarchy /> },
+  { path: "/competition/status", element: <RegistrationStatus /> },
+];
+
+// Club System Routes
+const clubRoutes = [
+  { path: "/club/overview", element: <ClubOverview /> },
+  { path: "/club/players", element: <Players /> },
+  { path: "/club/ecard", element: <ECard /> },
+  { path: "/club/roster", element: <Roster /> },
+  { path: "/club/match-day", element: <MatchDay /> },
+  { path: "/club/match-history", element: <MatchHistory /> },
+  { path: "/club/financial", element: <ClubFinancial /> },
+  { path: "/club/training/schedule", element: <TrainingSchedule /> },
+  { path: "/club/training/attendance", element: <TrainingAttendance /> },
+  { path: "/club/staff/coaches", element: <CoachManagement /> },
+  { path: "/club/staff/medical", element: <MedicalStaff /> },
+  { path: "/club/analytics/player-statistics", element: <PlayerStatistics /> },
+];
+
+// Root redirect
+const rootRoute = { path: "/", element: <Navigate to="/owner/dashboard" replace /> };
+
+// 404 fallback
+const notFoundRoute = { path: "*", element: <NotFound /> };
+
+// Combine all routes
+const allRoutes = [
+  rootRoute,
+  ...ownerRoutes,
+  ...eoRoutes,
+  ...matchRoutes,
+  ...competitionRoutes,
+  ...clubRoutes,
+  notFoundRoute,
+];
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -217,124 +361,13 @@ const App = () => (
           <RoleProvider>
             <AppShell>
               <Routes>
-              <Route path="/" element={<Navigate to="/owner/dashboard" replace />} />
-              {/* Owner - Dashboard */}
-              <Route path="/owner/dashboard" element={<OwnerDashboard />} />
-              <Route path="/owner/overview" element={<OwnerOverview />} />
-              {/* Owner - Platform Management */}
-              <Route path="/owner/platform-management/configuration" element={<PlatformConfiguration />} />
-              <Route path="/owner/platform-management/settings" element={<SystemSettings />} />
-              <Route path="/owner/platform-management/features" element={<FeatureFlags />} />
-              <Route path="/owner/platform-management/maintenance" element={<MaintenanceMode />} />
-              <Route path="/owner/platform-management/branding" element={<BrandingConfiguration />} />
-              <Route path="/owner/platform-management/integrations" element={<IntegrationSettings />} />
-              <Route path="/owner/platform-management/localization" element={<LocalizationSettings />} />
-              {/* Owner - Users */}
-              <Route path="/owner/users/management" element={<UserManagement />} />
-              <Route path="/owner/users/audit" element={<UserAuditLog />} />
-              <Route path="/owner/users/logs" element={<AuditLog />} />
-              {/* Owner - Organizations */}
-              <Route path="/owner/organizations/clubs" element={<ClubManagement />} />
-              <Route path="/owner/organizations/event-organizers" element={<EOManagement />} />
-              <Route path="/owner/organizations/monitoring" element={<OrganizationMonitoring />} />
-              <Route path="/owner/organizations/subscriptions" element={<SubscriptionManagement />} />
-              {/* Owner - Competitions */}
-              <Route path="/owner/competitions/monitoring" element={<CompetitionMonitoring />} />
-              <Route path="/owner/competitions/matches" element={<MatchMonitoring />} />
-              <Route path="/owner/competitions/players" element={<PlayerMonitoring />} />
-              {/* Owner - Finance */}
-              <Route path="/owner/finance/dashboard" element={<OwnerFinancial />} />
-              <Route path="/owner/finance/reconciliation" element={<PaymentReconciliation />} />
-              <Route path="/owner/finance/fee-settings" element={<PlatformFeeSettings />} />
-              <Route path="/owner/finance/billing" element={<BillingManagement />} />
-              {/* Owner - Analytics */}
-              <Route path="/owner/analytics/global" element={<GlobalAnalytics />} />
-              <Route path="/owner/analytics/revenue" element={<RevenueAnalytics />} />
-              {/* Owner - Infrastructure */}
-              <Route path="/owner/infrastructure/system-monitoring" element={<SystemMonitoring />} />
-              <Route path="/owner/infrastructure/performance" element={<PerformanceMonitoring />} />
-              <Route path="/owner/infrastructure/services" element={<ServiceMonitoring />} />
-              <Route path="/owner/infrastructure/logs" element={<LogManagement />} />
-              <Route path="/owner/infrastructure/backup" element={<SystemBackup />} />
-              <Route path="/owner/infrastructure/restore" element={<SystemRestore />} />
-              <Route path="/owner/infrastructure/errors" element={<ErrorTracking />} />
-              <Route path="/owner/infrastructure/access-logs" element={<AccessLogs />} />
-              {/* Owner - Security */}
-              <Route path="/owner/security/alerts" element={<SecurityAlerts />} />
-              <Route path="/owner/security/reports" element={<ComplianceReports />} />
-              <Route path="/owner/security/audit" element={<SecurityAudit />} />
-              {/* Owner - Developer Tools */}
-              <Route path="/owner/developer-tools/api-keys" element={<APIKeyManagement />} />
-              <Route path="/owner/developer-tools/webhooks" element={<WebhookManagement />} />
-              <Route path="/owner/developer-tools/monitoring" element={<APIMonitoring />} />
-              {/* Owner - Compliance */}
-              <Route path="/owner/compliance/config" element={<SystemConfig />} />
-              <Route path="/owner/compliance/import" element={<DataImport />} />
-              <Route path="/owner/compliance/export" element={<DataExport />} />
-              {/* Backward compatibility redirects */}
-              <Route path="/admin/*" element={<Navigate to="/owner/dashboard" replace />} />
-              {/* EO */}
-              <Route path="/eo/overview" element={<EOOverview />} />
-              <Route path="/eo/competitions" element={<Competitions />} />
-              <Route path="/eo/competitions/create" element={<CreateCompetition />} />
-              <Route path="/eo/registrations" element={<ClubRegistrations />} />
-              <Route path="/eo/schedule" element={<Schedule />} />
-              <Route path="/eo/match-sheet" element={<MatchSheet />} />
-              <Route path="/eo/standings" element={<Standings />} />
-              <Route path="/eo/reports" element={<Reports />} />
-              {/* Match Management */}
-              <Route path="/match/scheduler" element={<MatchScheduler />} />
-              <Route path="/match/referees" element={<RefereeAssignment />} />
-              <Route path="/match/lineup" element={<LineupSubmission />} />
-              <Route path="/match/events" element={<MatchEvents />} />
-              <Route path="/match/timeline" element={<MatchTimeline />} />
-              <Route path="/match/statistics" element={<MatchStatistics />} />
-              <Route path="/match/ratings" element={<PlayerRatings />} />
-              <Route path="/match/tactics" element={<TacticalAnalysis />} />
-              <Route path="/match/archive" element={<MatchArchive />} />
-              {/* Competition */}
-              <Route path="/competition/overview" element={<CompetitionOverview />} />
-              <Route path="/competition/setup" element={<CompetitionSetup />} />
-              <Route path="/competition/details" element={<CompetitionDetails />} />
-              <Route path="/competition/users" element={<CompetitionUserManagement />} />
-              <Route path="/competition/rules" element={<CompetitionRules />} />
-              <Route path="/competition/registration" element={<ParticipantRegistration />} />
-              <Route path="/competition/waivers" element={<WaiverManagement />} />
-              <Route path="/competition/matches" element={<MatchManagement />} />
-              <Route path="/competition/referees" element={<CompetitionRefereeAssignment />} />
-              <Route path="/competition/scoring" element={<ScoringSystem />} />
-              <Route path="/competition/prizes" element={<PrizePrizeDistribution />} />
-              <Route path="/competition/documents" element={<DocumentManagement />} />
-              <Route path="/competition/budget" element={<CompetitionBudget />} />
-              <Route path="/competition/approval" element={<CompetitionApproval />} />
-              <Route path="/competition/announcements" element={<Announcement />} />
-              <Route path="/competition/reports" element={<CompetitionReports />} />
-              <Route path="/competition/volunteers" element={<VolunteerManagement />} />
-              <Route path="/competition/venues" element={<VenueManagement />} />
-              <Route path="/competition/hierarchy" element={<OrganizationHierarchy />} />
-              <Route path="/competition/status" element={<RegistrationStatus />} />
-              {/* Club */}
-              <Route path="/club/overview" element={<ClubOverview />} />
-              <Route path="/club/players" element={<Players />} />
-              <Route path="/club/ecard" element={<ECard />} />
-              <Route path="/club/roster" element={<Roster />} />
-              <Route path="/club/match-day" element={<MatchDay />} />
-              <Route path="/club/match-history" element={<MatchHistory />} />
-              <Route path="/club/financial" element={<ClubFinancial />} />
-              {/* Club Training routes */}
-              <Route path="/club/training/schedule" element={<TrainingSchedule />} />
-              <Route path="/club/training/attendance" element={<TrainingAttendance />} />
-              {/* Club Staff routes */}
-              <Route path="/club/staff/coaches" element={<CoachManagement />} />
-              <Route path="/club/staff/medical" element={<MedicalStaff />} />
-              {/* Club Analytics routes */}
-              <Route path="/club/analytics/player-statistics" element={<PlayerStatistics />} />
-              {/* 404 - Catch-all */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </AppShell>
-        </RoleProvider>
-      </BrowserRouter>
+                {allRoutes.map((route, idx) => (
+                  <Route key={idx} path={route.path} element={route.element} />
+                ))}
+              </Routes>
+            </AppShell>
+          </RoleProvider>
+        </BrowserRouter>
       </ErrorBoundary>
     </TooltipProvider>
   </QueryClientProvider>
