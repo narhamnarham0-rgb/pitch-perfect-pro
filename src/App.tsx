@@ -18,14 +18,16 @@ import {
 } from "./modules/owner";
 
 // EO pages
-import EOOverview from "./pages/eo/EOOverview";
-import Competitions from "./pages/eo/Competitions";
-import CreateCompetition from "./pages/eo/CreateCompetition";
-import ClubRegistrations from "./pages/eo/ClubRegistrations";
-import Schedule from "./pages/eo/Schedule";
-import MatchSheet from "./pages/eo/MatchSheet";
-import Standings from "./pages/eo/Standings";
-import Reports from "./pages/eo/Reports";
+import {
+  EOOverview,
+  Competitions,
+  CreateCompetition,
+  ClubRegistrations,
+  Standings,
+  Schedule,
+  Reports,
+  MatchSheet
+} from "./modules/eo";
 
 // Match Management pages
 import MatchScheduler from "./pages/match/setup/MatchScheduler";
@@ -84,6 +86,7 @@ import {
   RevenueAnalytics,
   SystemMonitoring,
   UserManagement,
+  UserAuditLog,
   OrganizationMonitoring,
   CompetitionMonitoring,
   PlayerMonitoring,
