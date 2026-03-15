@@ -1,5 +1,7 @@
 // Players module barrel export
 export { default as Players } from './Players';
+export { default as PlayerManagement } from './PlayerManagement';
+export type { PlayerFormData, DocumentFile, VerificationStatus } from './PlayerManagement';
 export { default as PlayerProfile } from './PlayerProfile';
 export { default as PlayerRegistration } from './PlayerRegistration';
 export { default as PlayerTransfer } from './PlayerTransfer';

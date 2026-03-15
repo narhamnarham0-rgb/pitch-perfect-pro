@@ -1,11 +1,13 @@
+import { useMemo } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { RoleProvider } from "@/context/RoleContext";
+import { RoleProvider, useRole } from "@/context/RoleContext";
 import { AppShell } from "@/components/layout/AppShell";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import type { Role } from "@/lib/mockData";
 
 // Owner pages
 import {
@@ -334,22 +336,141 @@ const clubRoutes = [
   { path: "/club/analytics/player-statistics", element: <PlayerStatistics /> },
 ];
 
+// ============================================================================
+// Role-Protected Element Wrapper
+// ============================================================================
+const ProtectedElement = ({
+  element,
+  allowedRoles,
+}: {
+  element: React.ReactNode;
+  allowedRoles: Role[];
+}) => {
+  const { role } = useRole();
+  const isAllowed = allowedRoles.includes(role);
+
+  return isAllowed ? element : <Navigate to="/unauthorized" replace />;
+};
+
+// ============================================================================
+// Route Configuration with Role Permissions
+// ============================================================================
+interface RouteWithRole {
+  path: string;
+  element: React.ReactNode;
+  allowedRoles: Role[];
+}
+
+const protectedRoutes: RouteWithRole[] = [
+  // Owner routes (admin/owner only)
+  ...ownerRoutes.map((route) => ({
+    ...route,
+    allowedRoles: ["owner", "admin"] as Role[],
+  })),
+  // EO routes (eo only)
+  ...eoRoutes.map((route) => ({
+    ...route,
+    allowedRoles: ["eo"] as Role[],
+  })),
+  // Match routes (all roles)
+  ...matchRoutes.map((route) => ({
+    ...route,
+    allowedRoles: ["owner", "eo", "club", "admin"] as Role[],
+  })),
+  // Competition routes (all roles)
+  ...competitionRoutes.map((route) => ({
+    ...route,
+    allowedRoles: ["owner", "eo", "club", "admin"] as Role[],
+  })),
+  // Club routes (club only)
+  ...clubRoutes.map((route) => ({
+    ...route,
+    allowedRoles: ["club"] as Role[],
+  })),
+];
+
+// Root redirect component - redirects based on current role
+const RootRedirect = () => {
+  const { role } = useRole();
+  const redirectPath = useMemo(() => {
+    switch (role) {
+      case "owner":
+      case "admin":
+        return "/owner/dashboard";
+      case "eo":
+        return "/eo/overview";
+      case "club":
+        return "/club/overview";
+      default:
+        return "/owner/dashboard";
+    }
+  }, [role]);
+
+  return <Navigate to={redirectPath} replace />;
+};
+
+// Unauthorized page component
+const UnauthorizedPage = () => {
+  const { role, tenantName } = useRole();
+  
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
+      <div className="text-center max-w-md">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Access Denied</h1>
+        <p className="text-gray-600 mb-4">
+          Your current role (<span className="font-mono font-semibold">{role}</span>) does not have permission to access this page.
+        </p>
+        <p className="text-sm text-gray-500 mb-6">
+          Logged in as: <span className="font-semibold">{tenantName}</span>
+        </p>
+        <button
+          onClick={() => window.history.back()}
+          className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+        >
+          Go Back
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // Root redirect
-const rootRoute = { path: "/", element: <Navigate to="/owner/dashboard" replace /> };
+const rootRoute = { path: "/", element: <RootRedirect /> };
 
 // 404 fallback
 const notFoundRoute = { path: "*", element: <NotFound /> };
 
-// Combine all routes
-const allRoutes = [
-  rootRoute,
-  ...ownerRoutes,
-  ...eoRoutes,
-  ...matchRoutes,
-  ...competitionRoutes,
-  ...clubRoutes,
-  notFoundRoute,
-];
+// ============================================================================
+// Routes Renderer - Renders all routes with role protection
+// ============================================================================
+const RoutesRenderer = () => {
+  return (
+    <Routes>
+      {/* Root redirect - redirect to role-based dashboard */}
+      <Route path="/" element={<RootRedirect />} />
+
+      {/* Protected routes - render Route directly with protected element */}
+      {protectedRoutes.map((route) => (
+        <Route
+          key={route.path}
+          path={route.path}
+          element={
+            <ProtectedElement
+              element={route.element}
+              allowedRoles={route.allowedRoles}
+            />
+          }
+        />
+      ))}
+
+      {/* Unauthorized page */}
+      <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
+      {/* 404 fallback */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -360,11 +481,7 @@ const App = () => (
         <BrowserRouter>
           <RoleProvider>
             <AppShell>
-              <Routes>
-                {allRoutes.map((route, idx) => (
-                  <Route key={idx} path={route.path} element={route.element} />
-                ))}
-              </Routes>
+              <RoutesRenderer />
             </AppShell>
           </RoleProvider>
         </BrowserRouter>
