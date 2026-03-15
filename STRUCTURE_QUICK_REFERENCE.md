@@ -1,107 +1,129 @@
-# Application Structure - Quick Reference Guide
+# SoccerOS Structure - Updated Quick Reference Guide
 
-## Module Directory Map
+**For rapid lookup of pages, organization patterns, and structure insights.**
+
+---
+
+## 1. PAGES BY DIRECTORY (Complete Count - 275+ Pages)
+
+| Directory | Files | Type | Organization |
+|-----------|-------|------|--------------|
+| `admin/` | 39 | Platform automation | Flat (needs grouping) |
+| `analytics/` | 24 | Cross-domain analytics | 4 subdirectories (match, player, standings, team) |
+| `club/` | 48 | Club management | 8 subdirectories (academy, analytics, core, fan, finance, operations, player, roster, staff, training) |
+| `competition/` | 64 | Competition lifecycle | Flat - **NEEDS REORGANIZATION** |
+| `eo/` | 8 | Event organizer | Flat |
+| `finance/` | 40 | Financial operations | 10 subdirectories |
+| `match/` | 10 | Match management | 6 subdirectories |
+| `organization/` | 40 | Multi-entity structure | Flat |
+| `owner/` | 6 | Owner/superuser | Flat |
+| `public/` | 5 | Guest access | Flat |
+| **Root** | 2 | App navigation | Index.tsx, NotFound.tsx |
+| **TOTAL** | **275+** | | |
+
+---
+
+---
+
+## 2. Critical Issues Summary
+
+### 🔴 HIGH PRIORITY
+
+| Issue | Location | Impact | 
+|-------|----------|--------|
+| **Monolithic directory** | `competition/` (64 pages) | Hard to navigate |
+| **Flat admin module** | `admin/` (39 pages) | Unclear organization |
+| **Duplicate functionality** | Multiple registrations | Maintenance nightmare |
+| **Analytics fragmentation** | 4 separate analytics modules | Confusion |
+| **Unclear "core" folder** | `club/core/` | Ambiguous naming |
+| **Scattered public pages** | `public/` AND `competition/Public*` | Inconsistent |
+
+---
+
+## 3. Pages by Functional Domain
+
+### **Player Management**
+- **Primary:** `club/player/` (10 pages) - Master data, contracts, transfers
+- **Secondary:** `club/academy/` (5 pages) - Youth development
+- **Roster:** `club/roster/` (5 pages) - Squad composition
+- **Analytics:** `analytics/player/` (5 pages) - Performance metrics
+- **Registration:** `competition/ParticipantRegistration.tsx`
+
+### **Match Lifecycle**
+- **Setup:** `match/setup/` - MatchScheduler, RefereeAssignment
+- **Lineup:** `match/lineup/` - LineupSubmission
+- **Events:** `match/events/` - MatchEvents (live recording)
+- **Data:** `match/data/` - Statistics, Timeline, Ratings
+- **Analytics:** `match/analytics/` - TacticalAnalysis
+- **Archive:** `match/archive/` - Historical data
+
+### **Team/Squad Management**
+- `club/core/` - Club identity & basic info
+- `club/roster/` - Squad & lineup management
+- `club/staff/` - Coaching staff (5 pages)
+- `competition/Team*` - Team registration, confirmation, withdrawal
+
+### **Financial Operations**
+- **Accounting:** `finance/accounting/` (5 pages)
+- **Payments:** `finance/payments/` (5 pages)
+- **Payouts:** `finance/payouts/` (5 pages)
+- **Subscriptions:** `finance/subscriptions/` (5 pages)
+- **Compliance:** `finance/compliance/` (5 pages)
+- **Club-level:** `club/finance/` (5 pages)
+
+### **Reporting & Analytics**
+- **Platform:** `admin/GlobalAnalytics`
+- **Cross-domain:** `analytics/` (24 pages in 4 subdirs)
+- **Competition:** `competition/CompetitionAnalytics`
+- **Financial:** `finance/analytics/` (5 pages)
+- **Club:** `club/analytics/` (5 pages)
+
+### **System Administration**
+- **Monitoring:** 5+ *Monitoring pages
+- **Configuration:** *Configuration, Platform* pages
+- **Security:** AccessLogs, SecurityAlerts
+- **API:** APIKeyManagement, APIMonitoring, APIUsageAnalytics
+- **Integration:** IntegrationSettings, WebhookManagement
+- **Data:** SystemBackup, SystemRestore, DataImport, DataExport
+
+---
+
+## 4. Component Structure
 
 ```
-/src/pages/
-├── admin/              (40 files)   Platform management & monitoring
-├── analytics/          (14 files)   Cross-domain analytics
-│   ├── match/         (5 files)
-│   ├── player/        (5 files)
-│   ├── standings/     (5 files)
-│   └── team/          (5 files)
-├── club/              (40+ files)  Club operations
-│   ├── core/          (5 files)
-│   ├── academy/       (5 files)
-│   ├── analytics/     (5 files)
-│   ├── player/        (10 files)
-│   ├── roster/
-│   ├── training/
-│   ├── staff/
-│   ├── finance/
-│   └── fan/
-├── competition/       (47 files)   Tournament management
-├── eo/                (8 files)    Event Organizer dashboard
-├── finance/           (25+ files)  Payments & subscriptions
-│   ├── subscriptions/ (5 files)
-│   ├── billing/       (5 files)
-│   ├── payments/      (5 files)
-│   └── [7 more subdirs]
-├── match/             (12 files)   Match operations
-│   ├── setup/         (2 files)
-│   ├── lineup/        (1+ files)
-│   ├── events/        (1+ files)
-│   ├── data/          (3 files)
-│   ├── analytics/     (1 file)
-│   └── archive/       (1 file)
-├── organization/      (34 files)   Org structure & management
-├── owner/             (6 files)    Platform owner oversight
-├── public/            (5 files)    Public-facing pages
-├── Index.tsx
-└── NotFound.tsx
+components/
+├── layout/ (3)
+│   ├── AppShell - Main container
+│   ├── AppSidebar - Navigation sidebar  
+│   └── TopHeader - Top navigation bar
+│
+├── shared/ (8)
+│   ├── ChartUtils - Charting utilities
+│   ├── DataTable - Generic data table
+│   ├── LoadingSkeleton - Loading skeleton
+│   ├── MatchCard - Match display card
+│   ├── StatCard - Statistics card
+│   ├── StatusBadge - Single status indicator
+│   ├── StatusBadges - Multiple indicators
+│   └── StandingsTable - League standings
+│
+├── match/ (1)
+│   └── PitchVisualization - Interactive pitch diagram
+│
+├── ui/ (50+)
+│   └── Shadcn/UI primitive components
+│
+└── Root (3)
+    ├── ConfirmDialog - Confirmation modal
+    ├── ErrorBoundary - Error boundary wrapper
+    └── NavLink - Navigation link wrapper
 ```
 
-## Component Architecture
+**Issue:** Only 8 shared components for 275+ pages suggests opportunities for reusable component extraction.
 
-### Hierarchy
-```
-/src/components/
-├── ui/             (40+ shadcn/ui components)
-├── layout/         (3 files)    - AppShell, AppSidebar, TopHeader
-├── shared/         (8 files)    - Business-logic components
-│   ├── MatchCard
-│   ├── DataTable
-│   ├── StatCard
-│   ├── LoadingSkeleton
-│   ├── StandingsTable
-│   ├── StatusBadge/StatusBadges
-│   └── ChartUtils
-├── match/          (1 file)     - PitchVisualization
-├── ConfirmDialog.tsx
-├── ErrorBoundary.tsx
-└── NavLink.tsx
-```
+---
 
-## Key Patterns & Conventions
-
-### Import Pattern
-```typescript
-// ✅ All imports use path alias
-import { Card } from "@/components/ui/card";
-import { StatCard } from "@/components/shared/StatCard";
-import { cn } from "@/lib/utils";
-
-// ❌ No relative imports
-// import { Something } from "../../components/something";
-```
-
-### Component Export Patterns
-
-**Page Components** (Default Export)
-```typescript
-export default function PageName() {
-  return <div>...</div>;
-}
-```
-
-**Shared Components** (Named Export - Preferred)
-```typescript
-interface ComponentProps {
-  title: string;
-  value: number;
-}
-
-export const ComponentName = ({ title, value }: ComponentProps) => {
-  return <div>...</div>;
-};
-```
-
-### Props Pattern
-```typescript
-interface ComponentNameProps {
-  required: string;
-  optional?: string;
-  icon?: LucideIcon;
+## 5. Technology Stack
   accent?: "primary" | "gold" | "navy";
   className?: string;
 }
@@ -145,37 +167,106 @@ interface ComponentNameProps {
 | **Forms** | React Hook Form | 7.50+ |
 | **Query State** | @tanstack/react-query | 5.83 |
 | **Charts** | recharts | 2.x |
-| **Date Utils** | date-fns | 3.6 |
+| **Routing** | React Router | v6 |
 | **Build Tool** | Vite | 5.x |
 | **Testing** | Vitest + Playwright | Latest |
 
-## Accessibility Implementation Status
+---
 
-### ✅ Implemented
-- Error boundary
-- Confirmation dialogs
-- ARIA roles (main, region, group)
-- ARIA labels on interactive elements
-- Keyboard navigation in some components
+## 6. CSS/Styling Patterns
 
-### ⚠️ Incomplete
-- Inconsistent landmark usage across pages
-- Missing ARIA attributes on some components
-- No comprehensive screen reader testing noted
-- Some pages lack proper heading hierarchy
+### **Tailwind Configuration**
+- Dark mode enabled via class strategy
+- Custom color variables (HSL-based)
+- Geist font family (Google Fonts)
+- Custom container sizes
+- Extended theme with primary-glow color
 
-## File Size & Organization Assessment
+### **Consistent Patterns Observed**
+```typescript
+// Spacing pattern
+className="space-y-6"  // Vertical spacing
+className="gap-4"      // Grid gaps
 
-| Aspect | Status | Notes |
-|--------|--------|-------|
-| Module Sizes | ✅ Balanced | Largest module (competition) at 47 files |
-| Naming Consistency | ✅ Excellent | Clear PascalCase for components |
-| Import Organization | ✅ Excellent | All use @/ alias |
-| Type Coverage | ⚠️ Good | Core components typed, some loose |
-| Documentation | ⚠️ Light | Few JSDoc comments |
-| A11y Coverage | ⚠️ Partial | ~60% of pages well-labeled |
+// Responsive grid
+className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
 
-## Critical Inconsistencies Found
+// Card pattern
+<Card className="p-4">...</Card>
+
+// Accessibility
+role="main"
+aria-label="description"
+id="page-title"
+```
+
+---
+
+## 7. Known Page Ambiguities
+
+| Duplicate/Similar | Location 1 | Location 2 | Issue |
+|------------------|-----------|-----------|-------|
+| **RefereeAssignment** | `match/setup/` | `competition/` | Two separate assignments? |
+| **OrganizationHierarchy** | `competition/` | `organization/` | Duplicate or different scope? |
+| **Standings** | `analytics/standings/` | `competition/Public*` | Multiple access points |
+| **Team Performance** | `analytics/team/` | `competition/TeamPerformance` | Redundant? |
+| **PublicStatistics** | `competition/` | `public/` | Unclear separation |
+| **Notifications** | `competition/` | `organization/` | Unified or separate? |
+
+---
+
+## 8. Recommended Reorganization (Priority)
+
+### **Phase 1: High Impact**
+1. **Split `competition/` into 7 subdirectories:**
+   - `setup/` - Creation, categories, setup
+   - `rules/` - All rule-related pages
+   - `registration/` - Registration workflows
+   - `teams/` - Team management
+   - `scheduling/` - Match scheduling & fixtures
+   - `awards/` - Medals, prizes, awards
+   - `public/` - Public-facing pages
+
+2. **Organize `admin/` into 4 subdirectories:**
+   - `monitoring/` - Health, performance, errors
+   - `configuration/` - Settings, platform config
+   - `security/` - Access, alerts, compliance
+   - `integrations/` - API, webhooks, integrations
+
+### **Phase 2: Consolidation**
+3. Clarify analytics hierarchy
+4. Consolidate duplicate registration pages
+5. Document public/private page separation
+
+### **Phase 3: Documentation**
+6. Add module-level README files
+7. Create page directory mapping
+8. Document routing patterns
+
+---
+
+## 9. Quick Lookup: Pages by Role
+
+### **Owner/Super Admin**
+`owner/` (6 pages) - Full platform control
+
+### **Event Organizer**
+`eo/` (8 pages) - Competition-specific management
+
+### **Club Administrator**
+`club/` (48 pages) - Full club operations
+
+### **Athlete/Player**
+`club/player/` (10 pages) - Personal management
+
+### **Viewer/Public**
+`public/` (5 pages) - No login required
+
+---
+
+**Last Updated:** March 16, 2026  
+**Total Pages Analyzed:** 275+  
+**Maintenance Notes:** Update when adding new modules or reorganizing existing ones
 
 ### 1. Export Patterns ⚠️⚠️
 - Mixed default/named exports in shared components
