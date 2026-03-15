@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeftRight, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { focusVisibleClass } from "@/lib/accessibility";
 
 const upcomingMatch = mockMatches.find((m) => m.status === "Scheduled") || mockMatches[3];
 
@@ -25,7 +26,7 @@ export default function MatchDay() {
     <div className="space-y-6 animate-fade-in max-w-2xl mx-auto">
       {/* Match header */}
       <Card className="match-card-scheduled overflow-hidden">
-        <div className="bg-navy text-navy-foreground p-4">
+        <div className="bg-navy text-navy-foreground p-4" role="region" aria-label="Match information">
           <p className="text-[10px] uppercase tracking-widest text-navy-foreground/50 text-center">{upcomingMatch.competitionName}</p>
           <div className="flex items-center justify-between gap-4 mt-3">
             <div className="flex-1 text-right">
@@ -51,14 +52,14 @@ export default function MatchDay() {
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">Starting XI</CardTitle>
-            <Badge className={cn("text-[10px] border-0", submitted ? "bg-primary/10 text-primary" : "bg-secondary text-muted-foreground")}>
+            <Badge className={cn("text-[10px] border-0", submitted ? "bg-primary/10 text-primary" : "bg-secondary text-muted-foreground")} role="status" aria-label={submitted ? "Lineup submitted" : "Lineup in draft"}>
               {submitted ? "✓ Submitted" : "Draft"}
             </Badge>
           </div>
         </CardHeader>
-        <CardContent className="space-y-1">
+        <CardContent className="space-y-1" role="list" aria-label="Starting XI players">
           {mockStartingXI.map((slot) => (
-            <div key={slot.slot} className={cn("flex items-center gap-3 py-2 px-3 rounded-lg border", slot.player.eligibility !== "Verified" ? "border-gold/30 bg-gold/5" : "border-transparent hover:bg-accent/50 transition-colors")}>
+            <div key={slot.slot} className={cn("flex items-center gap-3 py-2 px-3 rounded-lg border", slot.player.eligibility !== "Verified" ? "border-gold/30 bg-gold/5" : "border-transparent hover:bg-accent/50 transition-colors")} role="listitem" aria-label={`Slot ${slot.slot}: ${slot.player.name}, Position ${slot.position}, Number ${slot.player.number}`}>
               <span className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold flex-shrink-0">{slot.player.number}</span>
               <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-semibold w-10 text-center flex-shrink-0">{slot.position}</span>
               <span className="text-sm font-medium flex-1 truncate">{slot.player.name}</span>
@@ -73,9 +74,9 @@ export default function MatchDay() {
         <CardHeader className="pb-2">
           <CardTitle className="text-base">Bangku Cadangan ({mockBench.length})</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-1">
+        <CardContent className="space-y-1" role="list" aria-label="Bench players">
           {mockBench.map((p) => (
-            <div key={p.id} className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-accent/50 transition-colors">
+            <div key={p.id} className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-accent/50 transition-colors" role="listitem" aria-label={`${p.name}, Position ${p.position}, Number ${p.number}`}>
               <span className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold flex-shrink-0">{p.number}</span>
               <span className="text-[10px] bg-secondary text-muted-foreground px-2 py-0.5 rounded font-semibold w-10 text-center flex-shrink-0">{p.position}</span>
               <span className="text-sm font-medium flex-1 truncate">{p.name}</span>
@@ -100,7 +101,7 @@ export default function MatchDay() {
         </Card>
       )}
 
-      <Button className="w-full gap-2" onClick={submit} disabled={submitted}>
+      <Button className={cn("w-full gap-2", focusVisibleClass)} onClick={submit} disabled={submitted} aria-label={submitted ? "Lineup already submitted" : "Submit lineup to event organizer"}>
         <Check className="w-4 h-4" />
         {submitted ? "Lineup Sudah Dikirim" : "Submit Lineup"}
       </Button>

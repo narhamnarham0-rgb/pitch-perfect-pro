@@ -59,18 +59,29 @@ const eoNav = [
 ];
 
 const clubNav = [
-  { group: "Club", items: [
+  { group: "Dashboard", items: [
     { title: "Overview", url: "/club/overview", icon: LayoutDashboard },
+  ]},
+  { group: "Squad Management", items: [
     { title: "Players", url: "/club/players", icon: Users },
     { title: "E-Card (QR)", url: "/club/ecard", icon: QrCode },
-  ]},
-  { group: "Competition", items: [
     { title: "Roster", url: "/club/roster", icon: UserPlus },
+  ]},
+  { group: "Match Management", items: [
     { title: "Match Day", url: "/club/match-day", icon: Swords },
     { title: "Match History", url: "/club/match-history", icon: History },
   ]},
+  { group: "Training & Performance", items: [
+    { title: "Training Schedule", url: "/club/training/schedule", icon: Calendar },
+    { title: "Training Attendance", url: "/club/training/attendance", icon: CheckSquare },
+    { title: "Player Statistics", url: "/club/analytics/player-statistics", icon: BarChart3 },
+  ]},
+  { group: "Staff Management", items: [
+    { title: "Coaches", url: "/club/staff/coaches", icon: UserCheck },
+    { title: "Medical Staff", url: "/club/staff/medical", icon: Shield },
+  ]},
   { group: "Financial", items: [
-    { title: "Financial", url: "/club/financial", icon: Wallet },
+    { title: "Financial Status", url: "/club/financial", icon: Wallet },
   ]},
 ];
 

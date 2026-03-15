@@ -55,6 +55,14 @@ import Roster from "./pages/club/Roster";
 import MatchDay from "./pages/club/MatchDay";
 import MatchHistory from "./pages/club/MatchHistory";
 import ClubFinancial from "./pages/club/ClubFinancial";
+// Club Training pages
+import TrainingSchedule from "./pages/club/training/TrainingSchedule";
+import TrainingAttendance from "./pages/club/training/TrainingAttendance";
+// Club Staff pages
+import CoachManagement from "./pages/club/staff/CoachManagement";
+import MedicalStaff from "./pages/club/staff/MedicalStaff";
+// Club Analytics pages
+import PlayerStatistics from "./pages/club/analytics/PlayerStatistics";
 
 // Admin pages - Dashboard & Analytics
 import PlatformDashboard from "./pages/admin/PlatformDashboard";
@@ -168,6 +176,14 @@ const App = () => (
               <Route path="/club/match-day" element={<MatchDay />} />
               <Route path="/club/match-history" element={<MatchHistory />} />
               <Route path="/club/financial" element={<ClubFinancial />} />
+              {/* Club Training routes */}
+              <Route path="/club/training/schedule" element={<TrainingSchedule />} />
+              <Route path="/club/training/attendance" element={<TrainingAttendance />} />
+              {/* Club Staff routes */}
+              <Route path="/club/staff/coaches" element={<CoachManagement />} />
+              <Route path="/club/staff/medical" element={<MedicalStaff />} />
+              {/* Club Analytics routes */}
+              <Route path="/club/analytics/player-statistics" element={<PlayerStatistics />} />
               {/* Admin - Dashboard */}
               <Route path="/admin/dashboard" element={<PlatformDashboard />} />
               <Route path="/admin/analytics" element={<GlobalAnalytics />} />

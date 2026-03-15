@@ -1,24 +1,51 @@
+import { useState } from "react";
 import { StatCard } from "@/components/shared/StatCard";
 import { MatchCard } from "@/components/shared/MatchCard";
-import { Users, Trophy, Calendar, Swords } from "lucide-react";
+import { LoadingSkeleton } from "@/components/shared/LoadingSkeleton";
+import { Users, Trophy, Calendar, Swords, RefreshCw } from "lucide-react";
 import { mockPlayers, mockMatches, mockRegistrations, mockMatchHistory } from "@/lib/mockData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { focusVisibleClass } from "@/lib/accessibility";
 
 export default function ClubOverview() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleRefresh = () => {
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 1500);
+  };
   const verifiedPlayers = mockPlayers.filter((p) => p.eligibility === "Verified").length;
   const upcoming = mockMatches.filter((m) => m.status === "Scheduled" || m.status === "Live");
   const lastMatch = mockMatchHistory[0];
 
+  if (isLoading) {
+    return <LoadingSkeleton rows={6} type="card" />;
+  }
+
   return (
     <div className="space-y-6 animate-fade-in">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">SSB Garuda Muda</h1>
-        <p className="text-muted-foreground text-sm mt-1">Club Dashboard — Makassar</p>
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">SSB Garuda Muda</h1>
+          <p className="text-muted-foreground text-sm mt-1">Club Dashboard — Makassar</p>
+        </div>
+        <Button
+          size="sm"
+          variant="outline"
+          className={cn("gap-2", focusVisibleClass)}
+          onClick={handleRefresh}
+          disabled={isLoading}
+          aria-label="Refresh dashboard data"
+        >
+          <RefreshCw className={cn("w-4 h-4", isLoading && "animate-spin")} />
+          Refresh
+        </Button>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" role="group" aria-label="Dashboard statistics">
         <StatCard title="Total Pemain" value={mockPlayers.length} icon={Users} accent="primary" />
         <StatCard title="Pemain Terverifikasi" value={verifiedPlayers} icon={Users} accent="navy" />
         <StatCard title="Kompetisi Aktif" value={mockRegistrations.filter((r) => r.status === "Approved").length} icon={Trophy} accent="gold" />
@@ -27,7 +54,7 @@ export default function ClubOverview() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Last result + upcoming */}
-        <div className="space-y-3">
+        <div className="space-y-3" role="region" aria-label="Recent matches and upcoming fixtures">
           <h2 className="text-base font-semibold">Hasil Terakhir</h2>
           {lastMatch && (
             <Card className={cn(lastMatch.result === "W" ? "match-card-finished" : lastMatch.result === "L" ? "match-card-live" : "match-card-scheduled")}>

@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { mockPlayers } from "@/lib/mockData";
 import { PlayerEligibilityBadge } from "@/components/shared/StatusBadges";
+import { LoadingSkeleton } from "@/components/shared/LoadingSkeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Search, QrCode, MoreHorizontal } from "lucide-react";
+import { Plus, Search, QrCode, MoreHorizontal, RefreshCw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { focusVisibleClass } from "@/lib/accessibility";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -17,12 +20,22 @@ export default function Players() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleRefresh = () => {
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 1200);
+  };
 
   const filtered = mockPlayers.filter(
     (p) => p.name.toLowerCase().includes(search.toLowerCase()) || p.position.includes(search.toUpperCase()),
   );
   const paged = filtered.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE);
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+
+  if (isLoading) {
+    return <LoadingSkeleton rows={10} type="table" />;
+  }
 
   const posColors: Record<string, string> = {
     GK: "bg-gold/15 text-gold-foreground",
@@ -37,9 +50,12 @@ export default function Players() {
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Daftar Pemain</h1>
-          <p className="text-muted-foreground text-sm mt-1">{filtered.length} pemain terdaftar di klub ini.</p>
+          <p className="text-muted-foreground text-sm mt-1" role="status" aria-live="polite">{filtered.length} pemain terdaftar di klub ini.</p>
         </div>
-        <Button size="sm" className="gap-2"><Plus className="w-4 h-4" />Tambah Pemain</Button>
+        <div className="flex gap-2">
+          <Button size="sm" className={cn("gap-2", focusVisibleClass)} onClick={handleRefresh} disabled={isLoading} aria-label="Refresh player list"><RefreshCw className={cn("w-4 h-4", isLoading && "animate-spin")} /></Button>
+          <Button size="sm" className={cn("gap-2", focusVisibleClass)} aria-label="Add new player"><Plus className="w-4 h-4" />Tambah Pemain</Button>
+        </div>
       </div>
 
       <Card>
@@ -47,22 +63,22 @@ export default function Players() {
           <div className="flex items-center gap-3">
             <CardTitle className="text-base">Skuat</CardTitle>
             <div className="relative flex-1 max-w-xs ml-auto">
-              <Search className="absolute left-2.5 top-2.5 w-3.5 h-3.5 text-muted-foreground" />
-              <Input placeholder="Cari pemain atau posisi..." value={search} onChange={(e) => { setSearch(e.target.value); setPage(0); }} className="pl-8 h-8 text-sm" />
+              <Search className="absolute left-2.5 top-2.5 w-3.5 h-3.5 text-muted-foreground" aria-hidden="true" />
+              <Input placeholder="Cari pemain atau posisi..." value={search} onChange={(e) => { setSearch(e.target.value); setPage(0); }} className="pl-8 h-8 text-sm" aria-label="Search players by name or position" />
             </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <Table>
+          <Table role="table" aria-label="Player roster">
             <TableHeader>
               <TableRow className="bg-muted/30 hover:bg-muted/30">
-                <TableHead className="w-10 text-center text-xs font-semibold uppercase tracking-wider">#</TableHead>
-                <TableHead className="text-xs font-semibold uppercase tracking-wider">Pemain</TableHead>
-                <TableHead className="text-xs font-semibold uppercase tracking-wider">Posisi</TableHead>
-                <TableHead className="text-center text-xs font-semibold uppercase tracking-wider">Usia</TableHead>
-                <TableHead className="text-xs font-semibold uppercase tracking-wider">Tanggal Lahir</TableHead>
-                <TableHead className="text-xs font-semibold uppercase tracking-wider">Status</TableHead>
-                <TableHead className="w-20 text-center text-xs font-semibold uppercase tracking-wider">Aksi</TableHead>
+                <TableHead className="w-10 text-center text-xs font-semibold uppercase tracking-wider" role="columnheader">#</TableHead>
+                <TableHead className="text-xs font-semibold uppercase tracking-wider" role="columnheader">Pemain</TableHead>
+                <TableHead className="text-xs font-semibold uppercase tracking-wider" role="columnheader">Posisi</TableHead>
+                <TableHead className="text-center text-xs font-semibold uppercase tracking-wider" role="columnheader">Usia</TableHead>
+                <TableHead className="text-xs font-semibold uppercase tracking-wider" role="columnheader">Tanggal Lahir</TableHead>
+                <TableHead className="text-xs font-semibold uppercase tracking-wider" role="columnheader">Status</TableHead>
+                <TableHead className="w-20 text-center text-xs font-semibold uppercase tracking-wider" role="columnheader">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -90,12 +106,12 @@ export default function Players() {
                   <TableCell><PlayerEligibilityBadge status={p.eligibility} /></TableCell>
                   <TableCell>
                     <div className="flex items-center justify-center gap-1">
-                      <Button variant="ghost" size="icon" className="w-7 h-7" onClick={() => navigate("/club/ecard")}>
+                      <Button variant="ghost" size="icon" className={cn("w-7 h-7", focusVisibleClass)} onClick={() => navigate("/club/ecard")} aria-label={`View e-card for ${p.name}`}>
                         <QrCode className="w-3.5 h-3.5 text-muted-foreground" />
                       </Button>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="w-7 h-7"><MoreHorizontal className="w-3.5 h-3.5" /></Button>
+                          <Button variant="ghost" size="icon" className={cn("w-7 h-7", focusVisibleClass)} aria-label={`Actions for ${p.name}`}><MoreHorizontal className="w-3.5 h-3.5" /></Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-36">
                           <DropdownMenuItem className="text-sm">Edit</DropdownMenuItem>
